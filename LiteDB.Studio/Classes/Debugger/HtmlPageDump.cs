@@ -1,17 +1,7 @@
-﻿using LiteDB;
-using LiteDB.Engine;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Net;
-using System.Reflection;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace LiteDB.Studio
 {
@@ -196,7 +186,7 @@ namespace LiteDB.Studio
             var collectionPosition = 192;
 
             this.SpanItem(collectionPosition, 3, null, "Length", BitConverter.ToInt32);
-            
+
             var p = collectionPosition + 4;
 
             while (p < collectionPosition + 4 + BitConverter.ToInt32(_buffer, collectionPosition) - 5)
@@ -272,8 +262,8 @@ namespace LiteDB.Studio
             _items[index].Span = 3;
             _items[index].Caption = caption;
             _items[index].Text = pageID == uint.MaxValue ? "-" : pageID.ToString();
-            _items[index].Href = pageID == uint.MaxValue || index == 0 ? 
-                null : 
+            _items[index].Href = pageID == uint.MaxValue || index == 0 ?
+                null :
                 "/" + (pageList ? "list/" : "") + pageID + (pageAddress ? "#" + _buffer[index + 4] : "");
 
             if (pageAddress)

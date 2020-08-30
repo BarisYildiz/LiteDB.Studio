@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ICSharpCode.TextEditor.Util;
+using System;
 using System.Windows.Forms;
-using ICSharpCode.TextEditor.Util;
 
 namespace LiteDB.Studio
 {

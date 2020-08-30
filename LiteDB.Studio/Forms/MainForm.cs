@@ -1,24 +1,20 @@
-﻿using ICSharpCode.TextEditor;
-using LiteDB.Engine;
+﻿using ICSharpCode.TextEditor.Util;
 using LiteDB.Studio.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ICSharpCode.TextEditor.Util;
 
 namespace LiteDB.Studio
 {
     public partial class MainForm : Form
     {
+        int rowIndex = 0;
         private readonly SynchronizationContext _synchronizationContext;
 
         private LiteDatabase _db = null;
@@ -60,7 +56,7 @@ namespace LiteDB.Studio
             // stop all threads
             this.FormClosing += (s, e) =>
             {
-                if(_db != null)
+                if (_db != null)
                 {
                     this.Disconnect();
                 }
@@ -75,7 +71,7 @@ namespace LiteDB.Studio
             {
                 this.Connect(AppSettingsManager.ApplicationSettings.LastConnectionStrings);
             }
-            
+
             // set load last db status to checkbox
 
             loadLastDb.Checked = AppSettingsManager.ApplicationSettings.LoadLastDbOnStartup;
@@ -83,10 +79,10 @@ namespace LiteDB.Studio
 
             // validate recent list
             AppSettingsManager.ValidateRecentList();
-            
+
             // add tooltip to Max Recent List Items UpDown Counter
             maxRecentItemsTooltip.SetToolTip(maxRecentListItems, "Max Recent Items, (Apply After Restart)");
-            
+
             // populate recent db list
             PopulateRecentList();
 
@@ -319,7 +315,7 @@ namespace LiteDB.Studio
 
                     var sql = new StringReader(task.Sql.Trim());
 
-                    while(sql.Peek() >= 0 && _db != null)
+                    while (sql.Peek() >= 0 && _db != null)
                     {
                         using (var reader = _db.Execute(sql, task.Parameters))
                         {
@@ -392,10 +388,10 @@ namespace LiteDB.Studio
                 lblResultCount.Visible = true;
                 lblElapsed.Text = data.Elapsed.ToString();
                 prgRunning.Style = ProgressBarStyle.Blocks;
-                lblResultCount.Text = 
+                lblResultCount.Text =
                     data.Result == null ? "" :
                     data.Result.Count == 0 ? "no documents" :
-                    data.Result.Count  == 1 ? "1 document" : 
+                    data.Result.Count == 1 ? "1 document" :
                     data.Result.Count + (data.LimitExceeded ? "+" : "") + " documents";
 
                 if (data.Exception != null)
@@ -404,19 +400,19 @@ namespace LiteDB.Studio
                     txtParameters.BindErrorMessage(data.Sql, data.Exception);
                     grdResult.BindErrorMessage(data.Sql, data.Exception);
                 }
-                else if(data.Result != null)
+                else if (data.Result != null)
                 {
                     if (tabResult.SelectedTab == tabGrid && data.IsGridLoaded == false)
                     {
                         grdResult.BindBsonData(data);
                         data.IsGridLoaded = true;
                     }
-                    else if(tabResult.SelectedTab == tabText && data.IsTextLoaded == false)
+                    else if (tabResult.SelectedTab == tabText && data.IsTextLoaded == false)
                     {
                         txtResult.BindBsonData(data);
                         data.IsTextLoaded = true;
                     }
-                    else if(tabResult.SelectedTab == tabParameters && data.IsParametersLoaded == false)
+                    else if (tabResult.SelectedTab == tabParameters && data.IsParametersLoaded == false)
                     {
                         txtParameters.BindParameter(data);
                         data.IsParametersLoaded = true;
@@ -698,7 +694,7 @@ namespace LiteDB.Studio
             // set focus to result
             this.ActiveControl =
                 tabResult.SelectedTab == tabGrid ? (Control)grdResult :
-                tabResult.SelectedTab == tabText ? (Control)txtResult : (Control)txtParameters; 
+                tabResult.SelectedTab == tabText ? (Control)txtResult : (Control)txtParameters;
         }
 
         private void TabSql_MouseClick(object sender, MouseEventArgs e)
@@ -877,6 +873,36 @@ namespace LiteDB.Studio
             }
 
             AppSettingsManager.ApplicationSettings.MaxRecentListItems = (int)num.Value;
+        }
+        private void grdResult_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                grdResult.ClearSelection();
+                grdResult.Rows[e.RowIndex].Selected = true;
+                rowIndex = e.RowIndex;
+                ctxDelete.Show(grdResult, e.Location);
+                ctxDelete.Show(Cursor.Position);
+            }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (grdResult.Rows.Count > 0)
+            {
+                try
+                {
+                    var rowid = (BsonValue)grdResult.Rows[rowIndex].Cells[0].Value;
+                    var colname = ((TaskData)tabSql.SelectedTab.Tag).Collection;
+                    _ = _db.GetCollection(colname).Delete(rowid);
+                    BtnRun_Click(btnRun, EventArgs.Empty);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"{ex}");
+                }
+
+            }
         }
     }
 }

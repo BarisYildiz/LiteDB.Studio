@@ -1,14 +1,10 @@
-﻿using System;
+﻿using ICSharpCode.TextEditor.Util;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ICSharpCode.TextEditor.Util;
 
 namespace LiteDB.Studio.Forms
 {
@@ -28,7 +24,7 @@ namespace LiteDB.Studio.Forms
 
             chkUpgrade.Checked = cs.Upgrade;
 
-            cmbCulture.DataSource = 
+            cmbCulture.DataSource =
                 CultureInfo.GetCultures(CultureTypes.AllCultures)
                 .Select(x => x.LCID)
                 .Distinct()

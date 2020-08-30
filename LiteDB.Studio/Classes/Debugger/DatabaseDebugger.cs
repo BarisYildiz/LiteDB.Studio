@@ -1,17 +1,8 @@
-﻿using LiteDB;
-using LiteDB.Engine;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace LiteDB.Studio
@@ -111,7 +102,7 @@ namespace LiteDB.Studio
             var bytes = text.Trim().Split(' ');
             var buffer = new byte[bytes.Length];
 
-            for(var i = 0; i < bytes.Length; i++)
+            for (var i = 0; i < bytes.Length; i++)
             {
                 buffer[i] = Convert.ToByte(bytes[i].Trim(), 16);
             }

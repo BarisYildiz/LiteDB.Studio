@@ -1,16 +1,12 @@
 ﻿// This code was based on the CSharp Editor Example with Code Completion created by Daniel Grunwald
-using System;
-using System.IO;
-using System.Text;
-using System.Xml;
-using System.Windows.Forms;
-using System.Collections;
-using System.Collections.Generic;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Diagnostics;
-using ICSharpCode.TextEditor.Document;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace LiteDB.Studio
 {
@@ -92,7 +88,7 @@ namespace LiteDB.Studio
                 _codeCompletionWindow = null;
             }
         }
-        
+
         private string FindExpression()
         {
             var textArea = _editor.ActiveTextAreaControl.TextArea;
@@ -154,9 +150,9 @@ namespace LiteDB.Studio
             // collections
             var cols = db.GetCollection("$cols").Query().ToArray();
 
-            _codeCompletionData.AddRange(cols.Select(x => new DefaultCompletionData(x["name"].AsString, 
+            _codeCompletionData.AddRange(cols.Select(x => new DefaultCompletionData(x["name"].AsString,
                 (x["type"] == "user" ? "User collection:\n-   " : "System collection:\n-   ") +
-                x["name"].AsString, 
+                x["name"].AsString,
                 x["type"] == "user" ? 1 :
                 x["type"] == "system" ? 5 : 4)));
 

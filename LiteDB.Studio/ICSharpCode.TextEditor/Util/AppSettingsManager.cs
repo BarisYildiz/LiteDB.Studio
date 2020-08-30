@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ICSharpCode.TextEditor.Util.Model;
+﻿using ICSharpCode.TextEditor.Util.Model;
 using LiteDB;
 using LiteDB.Studio.Properties;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace ICSharpCode.TextEditor.Util
 {
@@ -71,7 +68,7 @@ namespace ICSharpCode.TextEditor.Util
             {
                 // remove the old item
                 ApplicationSettings.RecentConnectionStrings.Remove(connection);
-          
+
             }
 
             if (ApplicationSettings.RecentConnectionStrings.Count + 1 > ApplicationSettings.MaxRecentListItems)
@@ -84,7 +81,7 @@ namespace ICSharpCode.TextEditor.Util
             ApplicationSettings.RecentConnectionStrings =
                 new List<ConnectionString>(ApplicationSettings.RecentConnectionStrings.Prepend(connectionString));
         }
-        
+
         /// <summary>
         /// Remove any item from recent list if it does not exist
         /// </summary>

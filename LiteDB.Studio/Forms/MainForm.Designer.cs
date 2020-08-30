@@ -34,11 +34,14 @@
             this.tvwDatabase = new System.Windows.Forms.TreeView();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
             this.splitRight = new System.Windows.Forms.SplitContainer();
+            this.txtSql = new ICSharpCode.TextEditor.TextEditorControl();
             this.tabResult = new System.Windows.Forms.TabControl();
             this.tabGrid = new System.Windows.Forms.TabPage();
             this.grdResult = new System.Windows.Forms.DataGridView();
             this.tabText = new System.Windows.Forms.TabPage();
+            this.txtResult = new ICSharpCode.TextEditor.TextEditorControl();
             this.tabParameters = new System.Windows.Forms.TabPage();
+            this.txtParameters = new ICSharpCode.TextEditor.TextEditorControl();
             this.tabSql = new System.Windows.Forms.TabControl();
             this.stbStatus = new System.Windows.Forms.StatusStrip();
             this.lblCursor = new System.Windows.Forms.ToolStripStatusLabel();
@@ -85,10 +88,9 @@
             this.imgCodeCompletion = new System.Windows.Forms.ImageList(this.components);
             this.loadLastDb = new System.Windows.Forms.CheckBox();
             this.maxRecentListItems = new System.Windows.Forms.NumericUpDown();
-            this.txtSql = new ICSharpCode.TextEditor.TextEditorControl();
-            this.txtResult = new ICSharpCode.TextEditor.TextEditorControl();
-            this.txtParameters = new ICSharpCode.TextEditor.TextEditorControl();
             this.maxRecentItemsTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.ctxDelete = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.Delete = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
             this.splitMain.Panel1.SuspendLayout();
             this.splitMain.Panel2.SuspendLayout();
@@ -107,6 +109,7 @@
             this.ctxMenu.SuspendLayout();
             this.ctxMenuRoot.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.maxRecentListItems)).BeginInit();
+            this.ctxDelete.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitMain
@@ -176,6 +179,22 @@
             this.splitRight.SplitterDistance = 174;
             this.splitRight.TabIndex = 8;
             // 
+            // txtSql
+            // 
+            this.txtSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSql.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSql.ConvertTabsToSpaces = true;
+            this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSql.Highlighting = "SQL";
+            this.txtSql.Location = new System.Drawing.Point(0, 0);
+            this.txtSql.Name = "txtSql";
+            this.txtSql.ShowLineNumbers = false;
+            this.txtSql.ShowVRuler = false;
+            this.txtSql.Size = new System.Drawing.Size(828, 171);
+            this.txtSql.TabIndex = 2;
+            // 
             // tabResult
             // 
             this.tabResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -213,35 +232,68 @@
             this.grdResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdResult.Location = new System.Drawing.Point(6, 5);
             this.grdResult.Name = "grdResult";
-            this.grdResult.Size = new System.Drawing.Size(811, 232);
+            this.grdResult.Size = new System.Drawing.Size(811, 230);
             this.grdResult.TabIndex = 0;
             this.grdResult.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.GrdResult_CellBeginEdit);
             this.grdResult.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.GrdResult_CellEndEdit);
             this.grdResult.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grdResult_CellFormatting);
+            this.grdResult.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdResult_CellMouseUp);
             this.grdResult.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.GrdResult_RowPostPaint);
             this.grdResult.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.grdResult_SortCompare);
             // 
             // tabText
             // 
             this.tabText.Controls.Add(this.txtResult);
-            this.tabText.Location = new System.Drawing.Point(4, 24);
+            this.tabText.Location = new System.Drawing.Point(4, 22);
             this.tabText.Name = "tabText";
             this.tabText.Padding = new System.Windows.Forms.Padding(3);
-            this.tabText.Size = new System.Drawing.Size(824, 361);
+            this.tabText.Size = new System.Drawing.Size(824, 363);
             this.tabText.TabIndex = 3;
             this.tabText.Text = "Text";
             this.tabText.UseVisualStyleBackColor = true;
             // 
+            // txtResult
+            // 
+            this.txtResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtResult.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtResult.Highlighting = "JSON";
+            this.txtResult.Location = new System.Drawing.Point(5, 4);
+            this.txtResult.Name = "txtResult";
+            this.txtResult.ReadOnly = true;
+            this.txtResult.ShowLineNumbers = false;
+            this.txtResult.ShowVRuler = false;
+            this.txtResult.Size = new System.Drawing.Size(812, 353);
+            this.txtResult.TabIndex = 1;
+            // 
             // tabParameters
             // 
             this.tabParameters.Controls.Add(this.txtParameters);
-            this.tabParameters.Location = new System.Drawing.Point(4, 24);
+            this.tabParameters.Location = new System.Drawing.Point(4, 22);
             this.tabParameters.Name = "tabParameters";
             this.tabParameters.Padding = new System.Windows.Forms.Padding(3);
-            this.tabParameters.Size = new System.Drawing.Size(824, 361);
+            this.tabParameters.Size = new System.Drawing.Size(824, 363);
             this.tabParameters.TabIndex = 5;
             this.tabParameters.Text = "Parameters";
             this.tabParameters.UseVisualStyleBackColor = true;
+            // 
+            // txtParameters
+            // 
+            this.txtParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtParameters.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtParameters.Highlighting = "JSON";
+            this.txtParameters.Location = new System.Drawing.Point(6, 5);
+            this.txtParameters.Name = "txtParameters";
+            this.txtParameters.ReadOnly = true;
+            this.txtParameters.ShowLineNumbers = false;
+            this.txtParameters.ShowVRuler = false;
+            this.txtParameters.Size = new System.Drawing.Size(811, 352);
+            this.txtParameters.TabIndex = 2;
             // 
             // tabSql
             // 
@@ -659,53 +711,20 @@
             0});
             this.maxRecentListItems.ValueChanged += new System.EventHandler(this.maxRecentListItems_ValueChanged);
             // 
-            // txtSql
+            // ctxDelete
             // 
-            this.txtSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSql.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtSql.ConvertTabsToSpaces = true;
-            this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSql.Highlighting = "SQL";
-            this.txtSql.Location = new System.Drawing.Point(0, 0);
-            this.txtSql.Name = "txtSql";
-            this.txtSql.ShowLineNumbers = false;
-            this.txtSql.ShowVRuler = false;
-            this.txtSql.Size = new System.Drawing.Size(828, 171);
-            this.txtSql.TabIndex = 2;
+            this.ctxDelete.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Delete});
+            this.ctxDelete.Name = "contextMenuStrip1";
+            this.ctxDelete.Size = new System.Drawing.Size(181, 48);
             // 
-            // txtResult
+            // Delete
             // 
-            this.txtResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtResult.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtResult.Highlighting = "JSON";
-            this.txtResult.Location = new System.Drawing.Point(5, 4);
-            this.txtResult.Name = "txtResult";
-            this.txtResult.ReadOnly = true;
-            this.txtResult.ShowLineNumbers = false;
-            this.txtResult.ShowVRuler = false;
-            this.txtResult.Size = new System.Drawing.Size(812, 353);
-            this.txtResult.TabIndex = 1;
-            // 
-            // txtParameters
-            // 
-            this.txtParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtParameters.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtParameters.Highlighting = "JSON";
-            this.txtParameters.Location = new System.Drawing.Point(6, 5);
-            this.txtParameters.Name = "txtParameters";
-            this.txtParameters.ReadOnly = true;
-            this.txtParameters.ShowLineNumbers = false;
-            this.txtParameters.ShowVRuler = false;
-            this.txtParameters.Size = new System.Drawing.Size(811, 352);
-            this.txtParameters.TabIndex = 2;
+            this.Delete.Image = global::LiteDB.Studio.Properties.Resources.table_delete;
+            this.Delete.Name = "Delete";
+            this.Delete.Size = new System.Drawing.Size(180, 22);
+            this.Delete.Text = "Delete";
+            this.Delete.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // MainForm
             // 
@@ -745,6 +764,7 @@
             this.ctxMenu.ResumeLayout(false);
             this.ctxMenuRoot.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.maxRecentListItems)).EndInit();
+            this.ctxDelete.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -812,6 +832,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.NumericUpDown maxRecentListItems;
         private System.Windows.Forms.ToolTip maxRecentItemsTooltip;
+        private System.Windows.Forms.ContextMenuStrip ctxDelete;
+        private System.Windows.Forms.ToolStripMenuItem Delete;
     }
 }
 
